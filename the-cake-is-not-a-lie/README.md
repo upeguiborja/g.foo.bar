@@ -64,14 +64,12 @@ Borsuk-Ulam seems to be usable only if there are two parties to divide the finit
 
 Initially you might suspect cake pieces can be disjoint but if that's the case, the trivial solution of splitting the cake ___n___ times, with ___n___ being the number of _M&Ms_ in the top and then rejoining them would be valid. 
 
-In wich case I suspect the solution would be the greatest common divider __GCD__ of the amounts of _M&Ms_ separated by color but by inspecting the second _python_ test we can clearly see this is not the case. So __cake partitions must not be disjointed__, this is, cake partitions  in this case we must go deeper in fair division problems and cake partition math.
+In wich case I suspect the solution would be the greatest common divider __GCD__ of the amounts of _M&Ms_ separated by color but by inspecting the second _python_ test we can clearly see this is not the case. So __cake partitions must not be disjointed__, this is, cake partitions must be connected in this case we must go deeper in fair division problems and cake partition math.
 
-Diving into the terminology, it seems that the problem is more approximate to pie-cutting, in the sense that it is a _1d "cake"_ with joint ends or even more approximate is the math concept of bracelet. If we can find the max number of fair/equal partitions of a bracelet the problem will be solved.
-
-Seems like and unsolved or even unasked math problem so i will try to solve it iteratively.
+Diving into the terminology, it seems that the problem is more approximate to pie-cutting, in the sense that it is a _1d "cake"_ with joint ends or even more approximate is the math concept of bracelet. If we can find the max number of fair/equal partitions of a bracelet the problem will be solved but actually this seems like an unsolved or even unasked math problem so i will try to solve it iteratively.
 
 ### Iterative solution
-So analizying the problem, its very productive to branch it into two specific cases and check them separately- Initially I will formulate a general answer for when the lenght of the _"cake string"_ is an even number which happens to be the case of the two proposed test cases:
+With the information we have in the problem statement and in the test suite provided by Google we can make some asumptions.
 
 | Input | Output |
 | -- | -- |
@@ -91,7 +89,7 @@ If we represent the cakes as _emoji strings_ we would get the following:
 | 🟥🟨🟪🟥🟨🟪🟥🟨🟪🟥🟨🟪 | 4 |
 | 🟥🟨🟪🟪🟨🟥🟥🟨🟪🟪🟨🟥 | 2 |
 
-These outputs come from _"splitting"_ the cake in the respective section, it is also noticeable that every cake section must have the same orientation, this is, mirroring of cake sections is not permitted as we can infere from the second test
+These outputs come from _"splitting"_ the cake in the respective section, it is also noticeable that every cake section must have the same orientation, this is, mirroring of cake sections is not permitted as we can infere from the second test which would have 4 equal sections if mirroring is possible.
 
 | Cake | Splitting |
 | -- | -- |
@@ -114,7 +112,7 @@ If we analize the _cake strings_ as combinatorial bracelets, they can be rotated
 | 1 | 🟥🟥🟨🟪🟪🟨🟥🟥🟨🟪🟪🟨 | 🟥🟥🟨🟪🟪🟨║🟥🟥🟨🟪🟪🟨 |
 | 2 | 🟨🟥🟥🟨🟪🟪🟨🟥🟥🟨🟪🟪 | 🟨🟥🟥🟨🟪🟪║🟨🟥🟥🟨🟪🟪 |
 
-As you can notice, __¡The rotation doesn't affect the splitting at all!__. This is important because now we dont have to care for the _"padding"_ of the cake slices.
+As you can notice, __¡The rotation doesn't affect the splitting at all!__. This is important because now we dont have to care for the _"padding"_ of the cake slices. Another important consideration to be taken into account is if a non sliceable cake sould be considered as _1 slice_ of cake
 
 
 
