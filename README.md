@@ -9,4 +9,6 @@ Private repo to work on the Google Foo Bar challenges with annotations and expla
 
 > Commander Lambda sure is a task-master, isn't she? You're being worked to the bone!
 
-- [ ] [Challenge 1 - The cake is not a Lie](./the-cake-is-not-a-lie/README.md)
+- [x] [Challenge 1 - The cake is not a Lie](./the-cake-is-not-a-lie/README.md)
+- [x] [Challenge 2 - Hey, I Already Did That!](./hey-i-already-did-that/README.md)
+- [ ] [Challenge 2 - Power Hungry](./power-hungry/README.md)
