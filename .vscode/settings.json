@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/mateoupegui/Projects/misc/g.foo.bar/.venv/bin/python3",
+    "python.pythonPath": ".venv/bin/python",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
