@@ -11,4 +11,5 @@ Repo with my work on the Google Foo Bar challenges with annotations and explanat
 
 - [x] [Challenge 1 - The cake is not a Lie](./the-cake-is-not-a-lie/README.md)
 - [x] [Challenge 2 - Hey, I Already Did That!](./hey-i-already-did-that/README.md)
-- [x] [Challenge 2 - Power Hungry](./power-hungry/README.md)
+- [x] [Challenge 3 - Power Hungry](./power-hungry/README.md)
+- [ ] [Challenge 4 - Find the Access Codes](./find-the-access-codes/README.md)
