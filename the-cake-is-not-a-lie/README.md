@@ -13,21 +13,21 @@ Write a function called solution(s) that, given a non-empty string less than 200
 To provide a Python solution, edit solution.py
 To provide a Java solution, edit Solution.java
 
-# Test cases
+## Test cases
 Your code should pass the following test cases.
 Note that it may also be run against hidden test cases not shown here.
 
-## Python cases
-| Input								| Output	|
-| -- 								| -- 		|
-| solution.solution("abcabcabcabc")	| 4 		|
-| solution.solution("abccbaabccba")	| 2 		|
-
-## Java cases
+### Java cases
 | Input								| Output	|
 | -- 								| -- 		|
 | Solution.solution("abcabcabcabc")	| 4 		|
 | Solution.solution("abccbaabccba")	| 2 		|
+
+### Python cases
+| Input								| Output	|
+| -- 								| -- 		|
+| solution.solution("abcabcabcabc")	| 4 		|
+| solution.solution("abccbaabccba")	| 2 		|
 
 Use `verify [file]` to test your solution and see how it does. When you are finished editing your code, use `submit [file]` to submit your answer. If your solution passes the test cases, it will be removed from your home folder.
 
@@ -112,8 +112,12 @@ If we analize the _cake strings_ as combinatorial bracelets, they can be rotated
 | 1 | 🟥🟥🟨🟪🟪🟨🟥🟥🟨🟪🟪🟨 | 🟥🟥🟨🟪🟪🟨║🟥🟥🟨🟪🟪🟨 |
 | 2 | 🟨🟥🟥🟨🟪🟪🟨🟥🟥🟨🟪🟪 | 🟨🟥🟥🟨🟪🟪║🟨🟥🟥🟨🟪🟪 |
 
-As you can notice, __¡The rotation doesn't affect the splitting at all!__. This is important because now we dont have to care for the _"padding"_ of the cake slices. Another important consideration to be taken into account is if a non sliceable cake sould be considered as _1 slice_ of cake
+As you can notice, __¡The rotation doesn't affect the splitting at all!__. This is important because now we dont have to care for the _"padding"_ of the cake slices. Another important consideration to be taken into account is if a non sliceable cake sould be considered as _1 slice_ of cake which i will suppose to be the case.
 
+Taking this into account and algorithm to split the cake would be what i call a __Divide & Conquer__ algorithm. Here we will split the cake (the _"divide"_ part) into __n__ equally sized slices and check if all the slices are equal if they are we take note of the amount of slices, then, we will divide it into __n+1__ slices and recheck until we end with slices with size of one _"unit"_.
 
+We cannot get equally sized slices every time so we will check if the slicing can be made using the _% modulus_ operator, and if the _"cake"_ has lenght _0_ then _0_ slices can be made.
 
-_Date: 2020-03-09_
+Also, we go all the way to _unit slices_ to make shure that cakes with one topping get processed accordingly.
+
+TODO: Make animation to explain in GIF
