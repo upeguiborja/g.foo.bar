@@ -1,6 +1,7 @@
 def solution(l):
     ## Could specify the appropiate permutation/combination if the 
     # list has just one item repeted multiple times
+    # A test fails because of poorly optimized code
     l = l[::-1]
     result = 0
     while len(l) > 2:
