@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": ".venv/bin/python",
+    "python.pythonPath": "C:\\Users\\mateoupegui\\AppData\\Local\\Programs\\Python\\Python27\\python.exe",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,

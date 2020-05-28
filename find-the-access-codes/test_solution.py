@@ -1,4 +1,4 @@
-from solution import solution
+from alternative import solution2 as solution
 
 def test_solution_1():
     assert solution([1, 1, 1]) == 1
