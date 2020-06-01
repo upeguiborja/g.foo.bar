@@ -7,7 +7,9 @@ def solution(entrances, exits, paths):
     # 4. https://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/
     # 5. https://en.wikipedia.org/wiki/Maximum_flow_problem#Multi-source_multi-sink_maximum_flow_problem
     # 6. https://en.wikipedia.org/wiki/Dinic%27s_algorithm
-    
+    # 7. https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm
+    # 8. https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
+
     # First we generate a more graph like data structure
     # to make searching and manipulation more human friendly.
     # This is a personal preference as any algorithm below
@@ -20,52 +22,75 @@ def solution(entrances, exits, paths):
             if flow != 0:
                 _buffer[j] = flow
         if len(_buffer) != 0:
-            graph[i] = {'edges': _buffer}
+            graph[i] = _buffer
     
     # Now we generate "consolidated" source and sink as stated in (5)
-    graph['s'] = {'edges': {i:float('inf') for i in entrances}} # Source
+    graph['s'] = {i:float('inf') for i in entrances} # Source
     
     for i in exits:
-        graph.setdefault(i, {'edges': {}})['edges']['t'] = float('inf')
+        graph.setdefault(i, {})['t'] = float('inf')
 
-    graph['t'] = {'edges': {}}
+    graph['t'] = {}
 
-    # Now we start by building a graph based on the 
-    # level structure for our graph with BFS which 
-    # is a labeling of its vertices in which the labels are
-    # the minimum distance from each node to the source
-    # and then we build a new graph than only includes
-    # the edges that make for an increasing distance walk.
-    graph = breadth_first_search(graph, 's')
+    # Implementation of the Edmonds-Karp algorithm
+    # choosen because it's easier to implement than Dinitz's imho
+    result = 0
+    _start = 's'
+    _end = 't'
 
-    # Next we rebuild our graph so that only paths of increasing distance
-    # and available capacity are considered using previous levels information
+    # while bfs(graph, _start, _end) != []:
+    #     _flow = float('inf')
 
-    return graph
+    #     _t = _end
+    #     while _t != _start:
+    #         _flow = min(_flow, graph[][])
 
-def breadth_first_search(graph, start):
-    # {node: distance}
-    _graph = graph.copy()
-    _graph[start]['level'] = 0
-    _queue= [start]
-    _visited = [start]
 
+    return edmond_karps(graph, 't', 's')
+
+def bfs(graph, start, end, parent):
+    # Returns a path in the form of a list of vertices 
+    # if there exists from [start] to [end] on the given [graph] 
+    # else returns an empty list
+
+    _visited = []
+    _queue = []
+
+    _visited.append(start)
+    _queue.append(start)
+    
     while len(_queue) > 0:
         _i = _queue.pop(0)
+        for k, v in graph[_i].items():
+            if (k not in _visited) and (v > 0):
+                _visited.append(k)
+                _queue.append(k)
+                parent[k] = _i
 
-        _level = _graph[_i]['level'] + 1
+    return True if end in _visited else False
 
-        _buff = [i for i in _graph[_i]['edges'].keys() if i not in _visited]
+def edmond_karps(graph, source, sink):
+    parent = [-1] * len(graph)
 
-        if len(_buff) != 0:
-            _visited.extend(_buff)
-            _queue.extend(_buff)
-            for i in _buff:
-                _graph[i]['level'] = _level
+    max_flow = 0
 
-    return _graph
+    while len(bfs(graph, source, sink, parent)) != 0:
+        _flow = float('inf')
+        _s = sink
+        while _s != source:
+            _flow = min(_flow, graph[parent[_s]][_s])
+            _t = parent[_s]
+        
+        max_flow += _flow
 
-def depth_first_search():
-    pass
+        _v = sink
+        while _v != source:
+            _u = parent[_v]
+            graph[_u][_v] -= _flow
+            graph[_v][_u] += _flow
+            _v = parent[_v]
 
+    return max_flow
 
+                
+print(solution([0], [3], [[0, 7, 0, 0], [0, 0, 6, 0], [0, 0, 0, 8], [9, 0, 0, 0]]))
