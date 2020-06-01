@@ -10,86 +10,60 @@ def solution(entrances, exits, paths):
     # 7. https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm
     # 8. https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
 
-    # First we generate a more graph like data structure
-    # to make searching and manipulation more human friendly.
-    # This is a personal preference as any algorithm below
-    # could be easily applied to an adjacency matrix
-
-    graph = {}
-    for i, item in enumerate(paths):
-        _buffer = {}
-        for j, flow in enumerate(item):
-            if flow != 0:
-                _buffer[j] = flow
-        if len(_buffer) != 0:
-            graph[i] = _buffer
-    
     # Now we generate "consolidated" source and sink as stated in (5)
-    graph['s'] = {i:float('inf') for i in entrances} # Source
-    
+    _ROWS = len(paths) + 2
+    _paths = [[0] * _ROWS]
+    for i in paths:
+        _paths.append([0]+i+[0])
+    _paths.append([0] * _ROWS)
+
+    for i in entrances:
+        _paths[0][i+1] = float('inf')
+
     for i in exits:
-        graph.setdefault(i, {})['t'] = float('inf')
+        _paths[i+1][-1] = float('inf')
 
-    graph['t'] = {}
+    return edmonds_karp(_paths, 0, _ROWS-1)
 
-    # Implementation of the Edmonds-Karp algorithm
-    # choosen because it's easier to implement than Dinitz's imho
-    result = 0
-    _start = 's'
-    _end = 't'
-
-    # while bfs(graph, _start, _end) != []:
-    #     _flow = float('inf')
-
-    #     _t = _end
-    #     while _t != _start:
-    #         _flow = min(_flow, graph[][])
-
-
-    return edmond_karps(graph, 't', 's')
-
-def bfs(graph, start, end, parent):
-    # Returns a path in the form of a list of vertices 
-    # if there exists from [start] to [end] on the given [graph] 
-    # else returns an empty list
-
-    _visited = []
-    _queue = []
-
-    _visited.append(start)
-    _queue.append(start)
-    
-    while len(_queue) > 0:
-        _i = _queue.pop(0)
-        for k, v in graph[_i].items():
-            if (k not in _visited) and (v > 0):
-                _visited.append(k)
-                _queue.append(k)
-                parent[k] = _i
-
-    return True if end in _visited else False
-
-def edmond_karps(graph, source, sink):
-    parent = [-1] * len(graph)
-
-    max_flow = 0
-
-    while len(bfs(graph, source, sink, parent)) != 0:
-        _flow = float('inf')
-        _s = sink
-        while _s != source:
-            _flow = min(_flow, graph[parent[_s]][_s])
-            _t = parent[_s]
+def bfs(graph, s, t, parent):
         
-        max_flow += _flow
+        visited = [False] * len(graph)
+        queue = []
 
-        _v = sink
-        while _v != source:
-            _u = parent[_v]
-            graph[_u][_v] -= _flow
-            graph[_v][_u] += _flow
-            _v = parent[_v]
+        queue.append(s)
+        visited[s] = True
+         
+        while queue:
+            u = queue.pop(0)
+         
+            for ind, val in enumerate(graph[u]):
+                if (visited[ind] == False) and (val > 0):
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
 
+        return visited[t]
+
+def edmonds_karp(graph, source, sink):
+    parent = [-1] * len(graph)
+    max_flow = 0 
+
+    while bfs(graph, source, sink, parent):
+
+        path_flow = float("Inf")
+        s = sink
+        while s != source:
+            path_flow = min(path_flow, graph[parent[s]][s])
+            s = parent[s]
+
+        max_flow += path_flow
+
+        v = sink
+        while v !=  source:
+            u = parent[v]
+            graph[u][v] -= path_flow
+            graph[v][u] += path_flow
+            v = parent[v]
     return max_flow
 
                 
